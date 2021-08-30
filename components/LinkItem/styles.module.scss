@@ -1,0 +1,31 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+
+  &:hover {
+    font-weight: bold;
+    * {
+      color: var(--blue);
+      stroke: var(--blue);
+      stroke-width: 1;
+    }
+  }
+}
+.label {
+  font-family: Poppins;
+  font-size: 10px;
+  // font-weight: 400;
+  letter-spacing: 0.5px;
+  line-height: 150%;
+  color: var(--grey);
+}
+.active {
+  font-weight: bold;
+  color: var(--blue);
+  * {
+    stroke: var(--blue);
+    stroke-width: 1;
+  }
+}

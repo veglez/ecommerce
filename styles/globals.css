@@ -14,3 +14,22 @@ a {
 * {
   box-sizing: border-box;
 }
+
+:root {
+  --blue: #40bfff;
+  --red: #fb7181;
+  --yellow: #ffc833;
+  --green: #53d1b6;
+  --purple: #5c61f4;
+  --dark: #223263;
+  --grey: #9098b1;
+  --light: #ebf0ff;
+  --white: #fff;
+  --text-caption-normalbold: 10px;
+}
+
+@font-face {
+  font-family: Poppins;
+  src: url('@font/poppins/Poppins-Regular.ttf'),
+    url('@font/poppins/Poppins-Bold.ttf');
+}
