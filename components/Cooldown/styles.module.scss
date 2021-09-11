@@ -1,0 +1,35 @@
+@import '@styles/typography';
+.container {
+  // width: 100%;
+  display: flex;
+  // justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2px;
+  color: var(--white);
+  margin: 0 auto;
+
+  div {
+    display: flex;
+    gap: 1ch;
+    align-items: center;
+    margin: 0 2ch 0 0;
+    //este width es el tamaño de "XX Minutes"
+    width: 117px;
+  }
+}
+
+.unitName {
+  display: inline-block;
+  align-self: flex-end;
+  @include body_text_large_bold;
+}
+.digits {
+  color: initial;
+  padding: 1ch;
+  border-radius: 5px;
+  background-color: var(--white);
+  width: 4ch;
+  min-width: 4ch;
+  text-align: center;
+}
