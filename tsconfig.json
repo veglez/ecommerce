@@ -16,7 +16,11 @@
     "baseUrl": ".",
     "paths": {
       "@font/*": ["public/font/*"],
-      "@containers/*": ["containers/*"]
+      "@containers/*": ["containers/*"],
+      "@styles/*": ["styles/*"],
+      "@material-ui/core/*": [
+        "../../../../cloned repositories/material-ui/packages/material-ui/src/*"
+      ]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
