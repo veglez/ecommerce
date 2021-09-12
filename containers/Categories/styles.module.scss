@@ -1,0 +1,6 @@
+@import 'styles/typography';
+
+.title {
+  color: var(--dark);
+  @include heading5;
+}

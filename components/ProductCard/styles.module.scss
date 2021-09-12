@@ -1,0 +1,46 @@
+@import 'styles/typography';
+
+.container {
+  width: 141px;
+  height: 238px;
+  border-radius: 5px;
+  border: 1px solid var(--light);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 16px;
+}
+.image {
+  width: 109px;
+  height: 109px;
+}
+
+.title {
+  @include heading6;
+  margin: 0;
+}
+
+.price {
+  @include body_text_normal_bold;
+  color: var(--blue);
+  margin: 0;
+}
+
+.discount {
+  display: flex;
+  gap: 8px;
+}
+
+.previousPrice {
+  @include caption_regular;
+  color: var(--gray);
+  text-decoration: line-through;
+  margin: 0;
+}
+
+.percentage {
+  @include caption_bold;
+  color: var(--red);
+  margin: 0;
+}

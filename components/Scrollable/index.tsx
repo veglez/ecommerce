@@ -12,19 +12,22 @@ import { scrollableProps } from './types';
 const Scrollable = (props: scrollableProps) => {
   const { elements, className, bullets, ...others } = props;
   const [index, setIndex] = useState(0);
-  const scrollableParent = useRef(null);
   const childrenClassname = 'scrollableChildren';
+  const scrollableParent = useRef(null);
 
   const handleClick: MouseEventHandler<HTMLSpanElement> = (e) => {
     const target = e.target as HTMLSpanElement;
-    const scrollOptions: ScrollToOptions = {
-      top: 0,
-      left: scrollableParent.current
-        ? scrollableParent.current.children[0].offsetWidth
-        : 1 * parseInt(target.dataset.pos as string),
-      behavior: 'smooth',
-    };
-    (scrollableParent.current as unknown as HTMLElement).scroll(scrollOptions);
+    if (scrollableParent.current !== null) {
+      const el: HTMLDivElement = scrollableParent.current;
+      const scrollOptions: ScrollToOptions = {
+        top: 0,
+        left: el
+          ? (el.children[0] as HTMLElement).offsetWidth
+          : 1 * parseInt(target.dataset.pos as string),
+        behavior: 'smooth',
+      };
+      el.scroll(scrollOptions);
+    }
   };
 
   useEffect(() => {
@@ -40,7 +43,6 @@ const Scrollable = (props: scrollableProps) => {
           entries: IntersectionObserverEntry[],
           observer: IntersectionObserver
         ) => {
-          // setIndex((ps) => ps + 1);
           entries.forEach((entry) => {
             entry.isIntersecting &&
               setIndex(
@@ -65,6 +67,7 @@ const Scrollable = (props: scrollableProps) => {
     setIndex(0);
   }, [scrollableParent]);
 
+  //why the data-pos doesnt propagate to cloned element?
   return (
     <div className={clsx(styles.container, className)}>
       <div ref={scrollableParent} className={styles.scrollableParent}>

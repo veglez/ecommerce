@@ -7,7 +7,7 @@ const Navbar = () => {
     <>
       <nav>
         {items.map((item) => (
-          <LinkItem key={item as unknown as Key} {...item} />
+          <LinkItem key={item.route} {...item} />
         ))}
       </nav>
       <style jsx>

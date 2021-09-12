@@ -4,9 +4,16 @@ import Image from 'next/image';
 import Navbar from '@containers/Navbar';
 import styles from '../styles/Home.module.css';
 import Logo from 'public/assets/logowhite.png';
-import Love from 'components/Icons/header/Love';
-import Notification from 'components/Icons/header/Notification';
+import Love from 'components/Icons/Love';
+import Notification from 'components/Icons/Notification';
 import Search from 'components/Icons/Search';
+import imagen from 'public/assets/prom02.png';
+import Test from 'components/Test';
+import Categories from '@containers/Categories/';
+import Offers from '@containers/Offers';
+import FlashSale from '@containers/FlashSale';
+import MegaSale from '@containers/MegaSale';
+import Ad from 'components/Ad';
 
 const Home: NextPage = () => {
   return (
@@ -34,23 +41,12 @@ const Home: NextPage = () => {
         </div>
       </header>
 
-      <article className={styles.offer}>
-        <p>Super Flash Sale</p>
-        <p>50% Off</p>
-        <div className={styles.timer}>
-          <div className={styles.clock_container}>
-            <span>08</span>
-          </div>
-          :
-          <div className={styles.clock_container}>
-            <span>34</span>
-          </div>
-          :
-          <div className={styles.clock_container}>
-            <span>52</span>
-          </div>
-        </div>
-      </article>
+      <Offers />
+      <Categories />
+      <FlashSale />
+      <MegaSale />
+      <Ad src={imagen} alt='some alt' />
+      {/* <Test /> */}
 
       <main className={styles.main}></main>
 

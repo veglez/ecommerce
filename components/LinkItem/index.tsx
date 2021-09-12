@@ -1,28 +1,32 @@
 import React from 'react';
-import Image from 'next/image';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
-
+import { useRouter } from 'next/dist/client/router';
+import Link from 'next/link';
 const LinkItem = (props: {
   label: string;
   Comp: React.ElementType;
   active: boolean;
+  route: string;
 }) => {
-  const { label, Comp, active } = props;
+  const { label, Comp, active, route } = props;
+  const router = useRouter();
 
   return (
     <>
-      <div className={styles.container}>
-        {/* <Image
-          className={styles.active}
-          alt={`${label} icon`}
-          Comp={Comp}
-          width={24}
-          height={24}
-        /> */}
-        {<Comp className={clsx(active && styles.active)} />}
-        <p className={clsx(styles.label, active && styles.active)}>{label}</p>
-      </div>
+      <Link href={route}>
+        <a className={styles.container}>
+          <Comp className={clsx(router.route === route && styles.active)} />
+          <p
+            className={clsx(
+              styles.label,
+              router.route === route && styles.active
+            )}
+          >
+            {label}
+          </p>
+        </a>
+      </Link>
     </>
   );
 };

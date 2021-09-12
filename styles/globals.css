@@ -1,18 +1,7 @@
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-* {
-  box-sizing: border-box;
+@font-face {
+  font-family: Poppins;
+  src: url('@font/poppins/Poppins-Regular.ttf'),
+    url('@font/poppins/Poppins-Bold.ttf');
 }
 
 :root {
@@ -22,14 +11,27 @@ a {
   --green: #53d1b6;
   --purple: #5c61f4;
   --dark: #223263;
-  --grey: #9098b1;
+  --gray: #9098b1;
   --light: #ebf0ff;
   --white: #fff;
-  --text-caption-normalbold: 10px;
 }
 
-@font-face {
-  font-family: Poppins;
-  src: url('@font/poppins/Poppins-Regular.ttf'),
-    url('@font/poppins/Poppins-Bold.ttf');
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+    Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  color: var(--dark);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }

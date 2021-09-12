@@ -1,0 +1,94 @@
+$font-base: 16px;
+@use "sass:math";
+
+@function px2rem($px) {
+  @return math.div($px, 16) * 1rem;
+}
+
+@mixin headings {
+  font-family: 'Poppins';
+  font-weight: bold;
+  letter-spacing: px2rem(0.5);
+  line-height: 150%;
+}
+
+@mixin heading1 {
+  font-size: px2rem(32);
+  @include headings;
+}
+@mixin heading2 {
+  font-size: px2rem(24);
+  @include headings;
+}
+@mixin heading3 {
+  font-size: px2rem(20);
+  @include headings;
+}
+@mixin heading4 {
+  font-size: px2rem(16);
+  @include headings;
+}
+@mixin heading5 {
+  font-size: px2rem(14);
+  @include headings;
+}
+@mixin heading6 {
+  font-size: px2rem(10);
+  @include headings;
+}
+
+//body TEXT
+
+@mixin bodyText {
+  font-family: 'Poppins';
+  letter-spacing: px2rem(0.5);
+  line-height: 180%;
+}
+
+@mixin body_text_large_bold {
+  font-size: px2rem(16);
+  font-weight: bold;
+  @include bodyText;
+}
+
+@mixin body_text_large_regular {
+  font-size: px2rem(16);
+  font-weight: normal;
+  @include bodyText;
+}
+@mixin body_text_medium_bold {
+  font-size: px2rem(14);
+  font-weight: bold;
+  @include bodyText;
+}
+@mixin body_text_medium_regular {
+  font-size: px2rem(14);
+  font-weight: normal;
+  @include bodyText;
+}
+@mixin body_text_normal_bold {
+  font-size: px2rem(12);
+  font-weight: bold;
+  @include bodyText;
+}
+@mixin body_text_normal_regular {
+  font-size: px2rem(12);
+  font-weight: normal;
+  @include bodyText;
+}
+
+@mixin extra {
+  font-size: px2rem(12);
+  line-height: 150%;
+  letter-spacing: 0.5px;
+}
+
+@mixin caption_bold {
+  font-weight: bold;
+  @include extra;
+}
+
+@mixin caption_regular {
+  font-weight: normal;
+  @include extra;
+}
