@@ -10,7 +10,7 @@ import styles from './styles.module.scss';
 import { scrollableProps } from './types';
 
 const Scrollable = (props: scrollableProps) => {
-  const { elements, className, bullets, ...others } = props;
+  const { elements, className, bullets = false, ...others } = props;
   const [index, setIndex] = useState(0);
   const childrenClassname = 'scrollableChildren';
   const scrollableParent = useRef(null);
@@ -22,7 +22,8 @@ const Scrollable = (props: scrollableProps) => {
       const scrollOptions: ScrollToOptions = {
         top: 0,
         left: el
-          ? (el.children[0] as HTMLElement).offsetWidth
+          ? (el.children[0] as HTMLElement).offsetWidth *
+            parseInt(target.dataset.pos as string)
           : 1 * parseInt(target.dataset.pos as string),
         behavior: 'smooth',
       };

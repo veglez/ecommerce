@@ -1,4 +1,6 @@
+// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { Bannerprops } from 'components/Banner/types';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 const banners: Bannerprops[] = [
   {
@@ -18,4 +20,9 @@ const banners: Bannerprops[] = [
   },
 ];
 
-export default banners;
+export default function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<Bannerprops[]>
+) {
+  res.status(200).json(banners);
+}

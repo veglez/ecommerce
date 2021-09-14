@@ -14,10 +14,17 @@ const Navbar = () => {
         {`
           nav {
             display: flex;
-            width: 100%;
+            width: 100vw;
             align-items: center;
             justify-content: space-around;
             gap: 20px;
+            position: sticky;
+            bottom: 0;
+             {
+              /* left: 0; */
+            }
+            background: #fff9;
+            backdrop-filter: blur(15px);
           }
         `}
       </style>

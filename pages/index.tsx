@@ -14,6 +14,15 @@ import Offers from '@containers/Offers';
 import FlashSale from '@containers/FlashSale';
 import MegaSale from '@containers/MegaSale';
 import Ad from 'components/Ad';
+import scrollableSection from 'HOC/scrollableSection';
+import Banner from 'components/Banner';
+import Category from 'components/Category';
+import ProductCard from 'components/ProductCard';
+import withFetchedData from 'HOC/withFetchedData';
+
+// const Categories = scrollableSection(Category, '/api/categories');
+const Banners = scrollableSection(Banner, '/api/offers');
+const Products = withFetchedData(ProductCard, '/api/homeproducts');
 
 const Home: NextPage = () => {
   return (
@@ -40,16 +49,18 @@ const Home: NextPage = () => {
           <Notification />
         </div>
       </header>
-
-      <Offers />
+      <Banners bullets={true} />
+      {/* <Offers /> */}
       <Categories />
       <FlashSale />
       <MegaSale />
-      <Ad src={imagen} alt='some alt' />
-      {/* <Test /> */}
-
-      <main className={styles.main}></main>
-
+      <Ad
+        src={imagen}
+        alt='some alt'
+        title={'Recomended Product'}
+        subtitle={'We recommend the best for you'}
+      />
+      <Products bullets={false} />
       <Navbar />
     </div>
   );

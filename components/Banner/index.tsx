@@ -11,7 +11,6 @@ const Banner = React.forwardRef<HTMLAreaElement, Bannerprops>(function Banner(
   ref2
 ) {
   const { title, offer, timer, className, number } = props;
-  const [index, setIndex] = useState(number);
   return (
     <article ref={ref2} className={clsx(styles.container, className)}>
       <Image src={imageoffer} alt={'offer'} layout={'fill'} />
