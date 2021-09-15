@@ -19,8 +19,8 @@ const withFetchedData = (Component: any, endpoint: string) => {
       <>
         <div className='container'>
           {error && <h2>{error}</h2>}
-          {data.map((item: { name: string; others?: any }) => {
-            return <Component key={`fetched ${item.name}`} {...item} />;
+          {data.map((item: any, i) => {
+            return <Component key={`fetched ${i}`} {...item} />;
           })}
         </div>
         <style jsx>{`

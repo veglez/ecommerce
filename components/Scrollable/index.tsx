@@ -17,14 +17,14 @@ const Scrollable = (props: scrollableProps) => {
 
   const handleClick: MouseEventHandler<HTMLSpanElement> = (e) => {
     const target = e.target as HTMLSpanElement;
+    const position = parseInt(target.dataset.pos as string);
     if (scrollableParent.current !== null) {
       const el: HTMLDivElement = scrollableParent.current;
       const scrollOptions: ScrollToOptions = {
         top: 0,
         left: el
-          ? (el.children[0] as HTMLElement).offsetWidth *
-            parseInt(target.dataset.pos as string)
-          : 1 * parseInt(target.dataset.pos as string),
+          ? (el.children[0] as HTMLElement).offsetWidth * position
+          : 1 * position,
         behavior: 'smooth',
       };
       el.scroll(scrollOptions);
