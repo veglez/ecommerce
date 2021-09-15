@@ -1,5 +1,5 @@
 import LinkItem from 'components/LinkItem';
-import React, { Key } from 'react';
+import React from 'react';
 import items from './data';
 
 const Navbar = () => {
@@ -20,9 +20,6 @@ const Navbar = () => {
             gap: 20px;
             position: sticky;
             bottom: 0;
-             {
-              /* left: 0; */
-            }
             background: #fff9;
             backdrop-filter: blur(15px);
           }

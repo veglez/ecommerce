@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { ReactComponentElement, ReactElement, ReactNode } from 'react';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { useRouter } from 'next/dist/client/router';
 import Link from 'next/link';
 const LinkItem = (props: {
   label: string;
-  Comp: React.ElementType;
+  Comp: any;
   active: boolean;
   route: string;
 }) => {
