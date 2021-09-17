@@ -1,8 +1,8 @@
 @import 'styles/typography';
 
 .container {
-  width: 141px;
-  height: 238px;
+  width: 165px;
+  height: 282px;
   border-radius: 5px;
   border: 1px solid var(--light);
   display: flex;
@@ -12,8 +12,8 @@
   padding: 16px;
 }
 .image {
-  width: 109px;
-  height: 109px;
+  width: 133px;
+  height: 133px;
 }
 
 .title {
@@ -34,6 +34,7 @@
 
 .previousPrice {
   @include caption_regular;
+  font-size: 10px;
   color: var(--gray);
   text-decoration: line-through;
   margin: 0;
@@ -41,6 +42,22 @@
 
 .percentage {
   @include caption_bold;
+  font-size: 10px;
   color: var(--red);
   margin: 0;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  &__left {
+    display: flex;
+    flex-direction: column;
+  }
+
+  // &__icon {
+  //   grid-area: icon;
+  // }
 }

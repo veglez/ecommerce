@@ -8,5 +8,6 @@ type productCardProps = {
   previous?: string;
   percentage?: string;
   score?: number;
+  erase?: boolean;
   others?: any;
 };
