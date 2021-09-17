@@ -6,7 +6,6 @@ import ProductCard from 'components/ProductCard';
 
 const FlashSale = () => {
   const elements = data.map((x) => React.createElement(ProductCard, x));
-  console.log(elements);
   return (
     <section className={styles.container}>
       <h2 className={styles.title}>Flash Sale</h2>

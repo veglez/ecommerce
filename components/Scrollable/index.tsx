@@ -39,28 +39,25 @@ const Scrollable = (props: scrollableProps) => {
         threshold: 0.75,
       };
 
-      const observer = new IntersectionObserver(
-        (
-          entries: IntersectionObserverEntry[],
-          observer: IntersectionObserver
-        ) => {
-          entries.forEach((entry) => {
-            entry.isIntersecting &&
-              setIndex(
-                //its expecting a className like "itemX" where X is a number from 0 to elements.length
-                parseInt(entry.target.className.split(' ')[2].substring(4))
-              );
-          });
-        },
-        intersectionOp
-      );
+      const callback = (entries: IntersectionObserverEntry[]) => {
+        entries.forEach((entry) => {
+          // console.log(entry);
+          entry.isIntersecting &&
+            setIndex(
+              //its expecting a className like "itemX" where X is a number from 0 to elements.length
+              parseInt(entry.target.className.split(' ')[2].substring(4))
+            );
+        });
+      };
+
+      const observer = new IntersectionObserver(callback, intersectionOp);
 
       let childrens = document.querySelectorAll('.scrollableChildren');
 
       childrens.forEach((v) => {
         observer.observe(v);
       });
-
+      // console.log('it should be executed the block code');
       return () => {
         observer.disconnect();
       };
