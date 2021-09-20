@@ -15,7 +15,7 @@ import Header from 'components/Header';
 
 // const Categories = scrollableSection(Category, '/api/categories');
 const Banners = scrollableSection(Banner, '/api/offers');
-const Products = withFetchedData(ProductCard, '/api/homeproducts');
+const Products = withFetchedData(ProductCard, '/api/products');
 
 const Home: NextPage = () => {
   return (
