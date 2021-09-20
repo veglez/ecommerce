@@ -10,7 +10,6 @@ import { useRouter } from 'next/dist/client/router';
 
 const Header = () => {
   const router = useRouter();
-  console.log(router);
 
   return (
     <header className={styles.header}>

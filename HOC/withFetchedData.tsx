@@ -6,6 +6,7 @@ const withFetchedData = (Component: any, endpoint: string) => {
     const [error, setError] = useState('');
 
     useEffect(() => {
+      setError('');
       if (window !== undefined) {
         window
           .fetch(endpoint)
