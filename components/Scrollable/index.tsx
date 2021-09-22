@@ -12,7 +12,9 @@ import { scrollableProps } from './types';
 const Scrollable = (props: scrollableProps) => {
   const { elements, className, bullets = false, ...others } = props;
   const [index, setIndex] = useState(0);
-  const childrenClassname = 'scrollableChildren';
+  // const childrenClassname = 'scrollableChildren';
+  const childrenClassname = styles.children;
+  console.log(typeof childrenClassname, childrenClassname);
   const scrollableParent = useRef(null);
 
   const handleClick: MouseEventHandler<HTMLSpanElement> = (e) => {
@@ -23,7 +25,7 @@ const Scrollable = (props: scrollableProps) => {
       const scrollOptions: ScrollToOptions = {
         top: 0,
         left: el
-          ? (el.children[0] as HTMLElement).offsetWidth * position
+          ? ((el.children[0] as HTMLElement).offsetWidth + 16) * position
           : 1 * position,
         behavior: 'smooth',
       };
@@ -42,17 +44,18 @@ const Scrollable = (props: scrollableProps) => {
       const callback = (entries: IntersectionObserverEntry[]) => {
         entries.forEach((entry) => {
           // console.log(entry);
+          const classes = entry.target.className.split(' ');
           entry.isIntersecting &&
             setIndex(
               //its expecting a className like "itemX" where X is a number from 0 to elements.length
-              parseInt(entry.target.className.split(' ')[2].substring(4))
+              parseInt(classes[classes.length - 1].substring(4))
             );
         });
       };
 
       const observer = new IntersectionObserver(callback, intersectionOp);
 
-      let childrens = document.querySelectorAll('.scrollableChildren');
+      let childrens = document.querySelectorAll(`.${childrenClassname}`);
 
       childrens.forEach((v) => {
         observer.observe(v);
@@ -63,17 +66,19 @@ const Scrollable = (props: scrollableProps) => {
       };
     }
     setIndex(0);
-  }, [scrollableParent]);
+  }, []);
 
   //why the data-pos doesnt propagate to cloned element?
   return (
     <div className={clsx(styles.container, className)}>
       <div ref={scrollableParent} className={styles.scrollableParent}>
-        {elements.map((el: ReactElement, i: number) => {
+        {elements.map((el: React.ReactElement, i: number) => {
           return React.cloneElement(el, {
-            key: i,
-            'data-pos': i,
-            className: `${childrenClassname} item${i}`,
+            key: `${el.type.name}${i}`,
+            clonedProps: {
+              'data-pos': i,
+              className: `${childrenClassname} item${i}`,
+            },
           });
         })}
       </div>

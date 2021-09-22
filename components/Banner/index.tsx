@@ -10,9 +10,13 @@ const Banner = React.forwardRef<HTMLAreaElement, Bannerprops>(function Banner(
   props: Bannerprops,
   ref2
 ) {
-  const { title, offer, timer, className, number } = props;
+  const { title, offer, timer, className, number, clonedProps } = props;
   return (
-    <article ref={ref2} className={clsx(styles.container, className)}>
+    <article
+      ref={ref2}
+      {...clonedProps}
+      className={clsx(styles.container, className)}
+    >
       <Image src={imageoffer} alt={'offer'} layout={'fill'} />
       <div className={styles.content}>
         <h2>{title}</h2>

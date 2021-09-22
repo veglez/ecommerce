@@ -12,6 +12,13 @@
   display: flex;
   width: calc(100vw - 16px);
   gap: 16px;
+  position: relative;
+  min-height: 100px;
+}
+
+.children {
+  width: 100%;
+  flex: 1 0 auto;
 }
 
 .bullets {
@@ -20,8 +27,8 @@
 }
 
 .bullet {
-  width: 15px;
-  height: 15px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   background-color: var(--light);
 }
