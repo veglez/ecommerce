@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Search from 'components/Icons/Search';
 import Notification from 'components/Icons/Notification';
-import Love from 'components/Icons/Love';
+import Heart from 'components/Icons/Heart';
 import styles from './styles.module.scss';
 import Logo from 'public/assets/logowhite.png';
 import { useRouter } from 'next/dist/client/router';
@@ -30,7 +30,7 @@ const Header = () => {
       <div className={styles.header__icons}>
         <Link href='/favorites'>
           <a>
-            <Love />
+            <Heart />
           </a>
         </Link>
         <div onClick={() => router.back()}>
