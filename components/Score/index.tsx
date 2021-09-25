@@ -1,13 +1,14 @@
 import React from 'react';
 import Star from 'components/Icons/Star';
 import styles from './styles.module.scss';
+import clsx from 'clsx';
 
-const index = (props: any) => {
-  const { score, starSize } = props;
+const Score = (props: any) => {
+  const { score, starSize = 16, className } = props;
   const els = [0, 1, 2, 3, 4];
 
   return (
-    <div className={styles.container}>
+    <div className={clsx(styles.container, className)}>
       {els.map((itemN) => {
         let innerScore = score - itemN;
         return (
@@ -28,4 +29,4 @@ const index = (props: any) => {
   );
 };
 
-export default index;
+export default Score;
