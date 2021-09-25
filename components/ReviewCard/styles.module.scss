@@ -1,0 +1,38 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.header {
+  width: 50%;
+  display: grid;
+  gap: 0 16px;
+  grid:
+    'avatar name'
+    'avatar score' / 1fr 1fr;
+  justify-content: start;
+  align-items: center;
+}
+
+.avatar {
+  grid-area: avatar;
+}
+
+.name {
+  grid-area: name;
+  white-space: nowrap;
+}
+
+.score {
+  grid-area: score;
+}
+
+.photos {
+  display: flex;
+  gap: 12px;
+}
+
+.photo {
+  border-radius: 8px;
+}
