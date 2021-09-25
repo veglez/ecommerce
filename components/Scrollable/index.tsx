@@ -14,7 +14,6 @@ const Scrollable = (props: scrollableProps) => {
   const [index, setIndex] = useState(0);
   // const childrenClassname = 'scrollableChildren';
   const childrenClassname = styles.children;
-  console.log(typeof childrenClassname, childrenClassname);
   const scrollableParent = useRef(null);
 
   const handleClick: MouseEventHandler<HTMLSpanElement> = (e) => {

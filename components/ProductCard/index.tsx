@@ -4,14 +4,8 @@ import Score from 'components/Score';
 import styles from './styles.module.scss';
 import Trash from 'components/Icons/Trash';
 import { connect } from 'react-redux';
-import { favoritesTypes } from 'reducers/favoritesReducer';
 import * as favoritesActions from 'actions/favoritesActions';
-import { productCardProps } from './types';
 import { ProductItem } from 'index';
-
-// interface productCardProps {
-//   deleteFavorite: (id: string) => {};
-// }
 
 const ProductCard = (props: ProductItem) => {
   const {

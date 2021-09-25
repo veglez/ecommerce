@@ -6,13 +6,14 @@ import { IoAccessibility } from 'react-icons/io5';
 import imagen from 'public/assets/prom02.png';
 import Score from 'components/Score';
 import Option from 'components/Option';
+import ReviewCard from 'components/ReviewCard';
+import useFetchData from 'hooks/useFetchData';
 
 const Test = () => {
   return (
     <div id='test'>
       <h2>This is a test component en _app</h2>
       <Score score={2.35} starSize={12} />
-      <Option optionValue={10} />
     </div>
   );
 };

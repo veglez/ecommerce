@@ -2,7 +2,6 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import Navbar from '@containers/Navbar';
 import imagen from 'public/assets/prom02.png';
-import Test from 'components/Test';
 import Categories from '@containers/Categories/';
 import FlashSale from '@containers/FlashSale';
 import MegaSale from '@containers/MegaSale';
@@ -14,7 +13,10 @@ import withFetchedData from 'HOC/withFetchedData';
 import Header from 'components/Header';
 
 // const Categories = scrollableSection(Category, '/api/categories');
-const Banners = scrollableSection(Banner, '/api/offers');
+const Banners = scrollableSection({
+  Component: Banner,
+  endpoint: '/api/offers',
+});
 const Products = withFetchedData(ProductCard, '/api/products');
 
 const Home: NextPage = () => {
@@ -29,7 +31,6 @@ const Home: NextPage = () => {
       <Header />
 
       <Banners bullets={true} />
-      {/* <Offers /> */}
       <Categories />
       <FlashSale />
       <MegaSale />
