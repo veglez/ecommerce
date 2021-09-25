@@ -53,3 +53,11 @@ export interface ProductDetails {
   description: string;
   reviews: Review[];
 }
+
+export interface scrollableClonedElement {
+  clonedProps: {
+    key: string;
+    dataset: any;
+    className: string;
+  };
+}
