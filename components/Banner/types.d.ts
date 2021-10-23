@@ -1,8 +1,9 @@
 export interface Bannerprops {
   className?: string;
-  number?: number;
+  src: StaticImageData | string;
   title: string;
   offer: string;
   timer: { date: string };
   dataSet?: any;
+  clonedProps?: any;
 }

@@ -4,7 +4,7 @@ import { Dispatch } from 'redux';
 export const getFavorites = () => async (dispatch: Dispatch) => {
   if (window !== undefined) {
     try {
-      const res = await window.fetch('/api/favorites');
+      const res = await window.fetch('http://localhost:3000/api/favorites');
       const data = await res.json();
 
       dispatch({

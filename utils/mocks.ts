@@ -1,7 +1,3 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { Bannerprops } from 'components/Banner/types';
-import type { NextApiRequest, NextApiResponse } from 'next';
-
 const banners: Bannerprops[] = [
   {
     src: 'https://res.cloudinary.com/webstatics/image/upload/v1633301658/ecommerce/prom01_kdcigs.png',
@@ -23,9 +19,4 @@ const banners: Bannerprops[] = [
   },
 ];
 
-export default function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Bannerprops[]>
-) {
-  res.status(200).json(banners);
-}
+export default banners;

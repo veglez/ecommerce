@@ -8,10 +8,17 @@ const withFetchedData = (Component: any, endpoint: string) => {
     useEffect(() => {
       setError('');
       if (window !== undefined) {
+        //CHECK set data
         window
           .fetch(endpoint)
-          .then((res) => res.json())
-          .then(setData)
+          .then((res) => {
+            console.log('------RES-------', res);
+            return res.json();
+          })
+          .then((d) => {
+            console.log(d);
+            setData(d.data);
+          })
           .catch((e) => setError(e.message));
       }
     }, []);

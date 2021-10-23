@@ -11,13 +11,17 @@ import Banner from 'components/Banner';
 import ProductCard from 'components/ProductCard';
 import withFetchedData from 'HOC/withFetchedData';
 import Header from 'components/Header';
+import banners from 'utils/mocks';
 
 // const Categories = scrollableSection(Category, '/api/categories');
 const Banners = scrollableSection({
   Component: Banner,
-  endpoint: '/api/offers',
+  componentProps: banners,
 });
-const Products = withFetchedData(ProductCard, '/api/products');
+const Products = withFetchedData(
+  ProductCard,
+  `${process.env.NEXT_PUBLIC_HOST}/products`
+);
 
 const Home: NextPage = () => {
   return (

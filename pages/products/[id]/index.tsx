@@ -1,85 +1,61 @@
 import scrollableSection from 'HOC/scrollableSection';
 import { useRouter } from 'next/router';
 import React from 'react';
-import NextImage from 'next/image';
 import Link from 'next/link';
 import useFetchData from 'hooks/useFetchData';
-import { ProductDetails, Image, scrollableClonedElement } from 'index';
+import { ProductDetails } from 'index';
 import Heart from 'components/Icons/Heart';
 import Score from 'components/Score';
 import Option from 'components/Option';
 import ReviewCard from 'components/ReviewCard';
 import ProductCard from 'components/ProductCard';
 import Button from 'components/Button';
-
-export const ImageWrapper = (props: Image & scrollableClonedElement) => {
-  const { clonedProps, height = '238px', ...others } = props;
-  return (
-    <>
-      <div {...clonedProps}>
-        <NextImage {...others} />
-      </div>
-      <style jsx>
-        {`
-          div {
-            position: relative;
-            height: ${height};
-          }
-        `}
-      </style>
-    </>
-  );
-};
+import ImageWrapper from 'components/ImageWrapper';
 
 const ProductDetail = () => {
   const router = useRouter();
   const { id } = router.query;
-  const res = useFetchData(`/api/products/${id}`);
-  const data = res.data as unknown as ProductDetails;
-  const error = res.error;
+  const endpoint = `${process.env.NEXT_PUBLIC_HOST}/products/${id}`;
+  const res: {
+    loading: boolean;
+    error: string | null;
+    data: null | ProductDetails;
+  } = useFetchData(endpoint);
 
-  let ProductImages, RecommendedProducts;
-  if (data) {
+  let ProductImages, OptionsSection;
+  if (res.data) {
     ProductImages = scrollableSection({
       Component: ImageWrapper,
-      componentProps: data.images.map((x) => {
+      componentProps: res.data.images.map((x) => {
         return { ...x, layout: 'fill' };
       }),
     });
-    RecommendedProducts = scrollableSection({
-      Component: ProductCard,
-      endpoint: '/api/products',
+
+    OptionsSection = scrollableSection({
+      Component: Option,
+      componentProps: res.data.options,
     });
   }
-
   return (
     <>
       <>
-        {error && <p>{error}</p>}
+        {res.error && <p>{res.error}</p>}
 
-        {data && (
+        {res.data !== null && (
           <div className='container'>
             <header className='mainHeader'>
               {ProductImages && <ProductImages bullets={true} />}
               <div className='title'>
-                <h2>{data.item.name}</h2>
-                <Heart size={24} isFavorite={data.item.isFavorite} />
+                <h2>{res.data.name}</h2>
+                <Heart size={24} isFavorite={res.data.isFavorite} />
               </div>
-              <Score score={data.item.score} starSize={16} />
-              <p>{data.item.price}</p>
+              <Score score={res.data.score} starSize={16} />
+              <p>{res.data.price}</p>
             </header>
-            {data.options?.map((op, i) => {
-              const Sec = scrollableSection({
-                Component: Option,
-                componentProps: op.options,
-              });
-              return (
-                <Sec key={`Option ${i}`} title={op.title} bullets={false} />
-              );
-            })}
+            {<OptionsSection />}
             <section className='itemSpecifications'>
               <h3></h3>
-              {data.specifications?.map((esp, i) => {
+              {res.data.specifications?.map((esp, i) => {
                 const { key: title, value } = esp;
                 return (
                   <article
@@ -96,33 +72,35 @@ const ProductDetail = () => {
                   </article>
                 );
               })}
-              <p> {data.description}</p>
+              <p> {res.data.description}</p>
             </section>
             <section>
               <header className='sectionReviewHeader'>
                 <div className='reviewTitle'>
                   <h3>Review Product </h3>
-                  <Link href={`/product/${id}/reviews`}>
+                  <Link href={`/products/${id}/reviews`}>
                     <a>See More</a>
                   </Link>
                 </div>
                 <div className='reviewScoreContainer'>
-                  <Score score={data.item.score} starSize={16} />
-                  <p>{data.item.score}</p>
+                  <Score score={res.data.score} starSize={16} />
+                  <p>{res.data.score}</p>
                   <p>
-                    ({data.reviews.length} Review
-                    {data.reviews.length > 1 ? 's' : ''})
+                    ({res.data.reviews.length} Review
+                    {res.data.reviews.length > 1 ? 's' : ''})
                   </p>
                 </div>
               </header>
-              {data.reviews && <ReviewCard {...data.reviews[0]} />}
+              {res.data.reviews.length > 0 && (
+                <ReviewCard {...res.data.reviews[0]} />
+              )}
             </section>
-            {RecommendedProducts && (
+            {/* {RecommendedProducts && (
               <RecommendedProducts
                 title='You Might Also Like'
                 bullets={false}
               />
-            )}
+            )} */}
             <Button text='Add to Cart' />
           </div>
         )}

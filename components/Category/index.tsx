@@ -1,7 +1,6 @@
 import React, { Attributes } from 'react';
 import styles from './styles.module.scss';
 import { categoryProps } from './types';
-import { AiFillAlert } from 'react-icons/ai';
 
 const Category = (props: categoryProps) => {
   const { icon, label, style } = props;

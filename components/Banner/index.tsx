@@ -4,20 +4,19 @@ import Image from 'next/image';
 import Cooldown from 'components/Cooldown';
 import styles from './styles.module.scss';
 import { Bannerprops } from './types';
-import imageoffer from 'public/assets/prom01.png';
 
 const Banner = React.forwardRef<HTMLAreaElement, Bannerprops>(function Banner(
   props: Bannerprops,
   ref2
 ) {
-  const { title, offer, timer, className, number, clonedProps } = props;
+  const { title, offer, timer, className, src, clonedProps } = props;
   return (
     <article
       ref={ref2}
       {...clonedProps}
       className={clsx(styles.container, className)}
     >
-      <Image src={imageoffer} alt={'offer'} layout={'fill'} />
+      <Image src={src} alt={`offer ${title}`} layout={'fill'} />
       <div className={styles.content}>
         <h2>{title}</h2>
         <p>{offer}</p>

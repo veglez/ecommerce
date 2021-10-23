@@ -1,7 +1,6 @@
 import Navbar from '@containers/Navbar';
 import Header from 'components/Header';
 import ProductCard from 'components/ProductCard';
-import withFetchedData from 'HOC/withFetchedData';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import * as FavsActions from 'actions/favoritesActions';

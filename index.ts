@@ -28,9 +28,9 @@ export interface Review {
   id: string;
   user: User;
   score: number;
-  comment: string;
-  photos: Image[];
-  publishedDate: string;
+  opinion: string;
+  images: Image[];
+  published: string;
 }
 
 export interface ProductItem {
@@ -40,7 +40,7 @@ export interface ProductItem {
   score: number;
   price: number;
   previousPrice?: number;
-  percentageOff?: number;
+  percentageOff: number;
   isFavorite: boolean;
 }
 
@@ -48,10 +48,9 @@ export interface ProductDetails {
   id: string;
   item: ProductItem;
   images: Image[];
-  options?: ProductOption[];
-  specifications?: ProductSpecification[];
+  options: ProductOption[];
+  specifications: ProductSpecification[];
   description: string;
-  reviews: Review[];
 }
 
 export interface scrollableClonedElement {

@@ -6,21 +6,23 @@ import { Review } from 'index';
 import Avatar from 'components/Avatar';
 
 const ReviewCard = (props: Review) => {
-  const { user, score, comment, photos, publishedDate } = props;
+  const { user, score, opinion, images, published } = props;
+  const publishedDate = new Date(published).toDateString();
   return (
     <>
       <div className={styles.container}>
         <header className={styles.header}>
           <Avatar imageProps={user.avatar} className={styles.avatar} />
           <h4 className={styles.name}>
+            {user.username}
             {user.name} {user.lastName}
           </h4>
           <Score score={score} className={styles.score} />
         </header>
-        <p>{comment}</p>
-        {photos.length > 0 && (
-          <div className={styles.photos}>
-            {photos.map((p) => {
+        <p>{opinion}</p>
+        {images.length > 0 && (
+          <div className={styles.images}>
+            {images.map((p) => {
               return (
                 <Image
                   key={p.alt}
