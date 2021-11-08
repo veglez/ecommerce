@@ -6,7 +6,7 @@ import useFetchData from 'hooks/useFetchData';
 import { ProductDetails, Image, scrollableClonedElement } from 'index';
 import Love from 'components/Icons/Love';
 import Score from 'components/Score';
-import Option from 'components/Option';
+import Option from '@containers/Options';
 
 const ImageWrapper = (props: Image & scrollableClonedElement) => {
   const { clonedProps, ...others } = props;

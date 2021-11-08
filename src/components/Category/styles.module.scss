@@ -1,0 +1,22 @@
+@import '@styles/typography';
+
+.icon {
+  width: 70px;
+  height: 70px;
+  border: 1px solid var(--light);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.label {
+  @include caption_regular;
+  text-transform: capitalize;
+  color: var(--gray);
+  text-align: center;
+}
+
+.element {
+  font-size: 24px;
+}

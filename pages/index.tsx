@@ -6,24 +6,31 @@ import Categories from '@containers/Categories/';
 import FlashSale from '@containers/FlashSale';
 import MegaSale from '@containers/MegaSale';
 import Ad from 'components/Ad';
-import scrollableSection from 'HOC/scrollableSection';
+import scrollableSection from 'src/HOC/scrollableSection';
 import Banner from 'components/Banner';
 import ProductCard from 'components/ProductCard';
-import withFetchedData from 'HOC/withFetchedData';
 import Header from 'components/Header';
-import banners from 'utils/mocks';
+import banners from 'src/utils/mocks';
+import { useAppDispatch, useAppSelector } from 'src/redux/config/store';
+import React from 'react';
+import { getProducts } from 'src/redux/actions/products';
+import MainContainer from '@containers/MainContainer';
 
 // const Categories = scrollableSection(Category, '/api/categories');
 const Banners = scrollableSection({
   Component: Banner,
   componentProps: banners,
 });
-const Products = withFetchedData(
-  ProductCard,
-  `${process.env.NEXT_PUBLIC_HOST}/products`
-);
 
 const Home: NextPage = () => {
+  const dispatch = useAppDispatch();
+  const store = useAppSelector((state) => state.productsReducer);
+
+  // React.useEffect(() => {
+  //   dispatch(getProducts());
+  // }, [dispatch]);
+  console.log('STORE INDEx', store); //eslint-disable-line
+
   return (
     // <div className={styles.container}>
     <>
@@ -44,7 +51,12 @@ const Home: NextPage = () => {
         title={'Recomended Product'}
         subtitle={'We recommend the best for you'}
       />
-      <Products bullets={false} />
+      <MainContainer
+        Component={ProductCard}
+        // componentData={store.products}
+        // loading={store.loading}
+        // error={store.error}
+      />
       <Navbar />
     </>
   );

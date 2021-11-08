@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es6",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -15,9 +15,10 @@
     "jsx": "preserve",
     "baseUrl": ".",
     "paths": {
+      "components/*": ["src/components/*"],
       "@font/*": ["public/font/*"],
-      "@containers/*": ["containers/*"],
-      "@styles/*": ["styles/*"],
+      "@containers/*": ["src/containers/*"],
+      "@styles/*": ["src/styles/*"],
       "@material-ui/core/*": [
         "../../../../cloned repositories/material-ui/packages/material-ui/src/*"
       ]

@@ -1,0 +1,6 @@
+@import '@styles/typography';
+.error {
+  @include heading6;
+  color: var(--red);
+  height: 16px;
+}

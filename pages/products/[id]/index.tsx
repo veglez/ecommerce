@@ -1,100 +1,93 @@
-import scrollableSection from 'HOC/scrollableSection';
+import scrollableSection from 'src/HOC/scrollableSection';
 import { useRouter } from 'next/router';
 import React from 'react';
 import Link from 'next/link';
-import useFetchData from 'hooks/useFetchData';
-import { ProductDetails } from 'index';
 import Heart from 'components/Icons/Heart';
 import Score from 'components/Score';
-import Option from 'components/Option';
 import ReviewCard from 'components/ReviewCard';
-import ProductCard from 'components/ProductCard';
+// import ProductCard from 'components/ProductCard';
 import Button from 'components/Button';
 import ImageWrapper from 'components/ImageWrapper';
+import Options from '@containers/Options';
+import { useAppSelector } from 'src/redux/config/store';
+import Reviews from '@containers/Reviews';
 
 const ProductDetail = () => {
   const router = useRouter();
   const { id } = router.query;
-  const endpoint = `${process.env.NEXT_PUBLIC_HOST}/products/${id}`;
-  const res: {
-    loading: boolean;
-    error: string | null;
-    data: null | ProductDetails;
-  } = useFetchData(endpoint);
+  const state = useAppSelector((s) => s.products);
+  console.log('product id index', state); //eslint-disable-line
 
-  let ProductImages, OptionsSection;
-  if (res.data) {
+  const [res] = state.products.filter((item) => item.id === id);
+  // const endpoint = `${process.env.NEXT_PUBLIC_HOST}/products/${id}`;
+  // const res: fetchedData<ProductItem> = useFetchData(endpoint);
+  // const reviewsEndpoint = `${process.env.NEXT_PUBLIC_HOST}/products/${id}/reviews`;
+  // const reviews: fetchedData<paginator<Review>> = useFetchData(reviewsEndpoint);
+
+  let ProductImages;
+  if (res) {
     ProductImages = scrollableSection({
       Component: ImageWrapper,
-      componentProps: res.data.images.map((x) => {
+      componentProps: res.images.map((x) => {
         return { ...x, layout: 'fill' };
       }),
     });
-
-    OptionsSection = scrollableSection({
-      Component: Option,
-      componentProps: res.data.options,
-    });
   }
+  // return <h1>Debbuging</h1>;
+  //this should be out in a component
+  // if (res.error) return <h2>{res.error}</h2>;
+  // if (res.loading) return <h2>Loading...{endpoint}</h2>;
   return (
     <>
       <>
-        {res.error && <p>{res.error}</p>}
-
-        {res.data !== null && (
+        {res !== null && (
           <div className='container'>
             <header className='mainHeader'>
               {ProductImages && <ProductImages bullets={true} />}
               <div className='title'>
-                <h2>{res.data.name}</h2>
-                <Heart size={24} isFavorite={res.data.isFavorite} />
+                <h2>{res.name}</h2>
+                <Heart size={24} isFavorite={true} />
               </div>
-              <Score score={res.data.score} starSize={16} />
-              <p>{res.data.price}</p>
+              <Score score={res.score} starSize={16} />
+              <p>{res.price}</p>
             </header>
-            {<OptionsSection />}
+            {res.options && (
+              <div>
+                {res.options.map((d) => (
+                  <Options key={d.title} {...d} />
+                ))}
+              </div>
+            )}
             <section className='itemSpecifications'>
-              <h3></h3>
-              {res.data.specifications?.map((esp, i) => {
-                const { key: title, value } = esp;
-                return (
-                  <article
-                    key={i}
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <h6>{title}</h6>
-                    <p style={{ width: '50%', wordBreak: 'break-all' }}>
-                      {value}
-                    </p>
-                  </article>
-                );
-              })}
-              <p> {res.data.description}</p>
+              <h3>Specifications</h3>
+              <div>
+                {res.specifications?.map((esp, i) => {
+                  const { key: title, value } = esp;
+                  return (
+                    <article
+                      key={i}
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                      }}
+                    >
+                      <h6>{title}:</h6>
+                      <p
+                        style={{
+                          width: '50%',
+                          textAlign: 'end',
+                          wordBreak: 'break-all',
+                        }}
+                      >
+                        {value}
+                      </p>
+                    </article>
+                  );
+                })}
+              </div>
+              <p> {res.description}</p>
             </section>
-            <section>
-              <header className='sectionReviewHeader'>
-                <div className='reviewTitle'>
-                  <h3>Review Product </h3>
-                  <Link href={`/products/${id}/reviews`}>
-                    <a>See More</a>
-                  </Link>
-                </div>
-                <div className='reviewScoreContainer'>
-                  <Score score={res.data.score} starSize={16} />
-                  <p>{res.data.score}</p>
-                  <p>
-                    ({res.data.reviews.length} Review
-                    {res.data.reviews.length > 1 ? 's' : ''})
-                  </p>
-                </div>
-              </header>
-              {res.data.reviews.length > 0 && (
-                <ReviewCard {...res.data.reviews[0]} />
-              )}
-            </section>
+            <Reviews productId={id as string} score={res.score} />
             {/* {RecommendedProducts && (
               <RecommendedProducts
                 title='You Might Also Like'
@@ -120,18 +113,6 @@ const ProductDetail = () => {
         div.title {
           display: flex;
           gap: 16px;
-          align-items: center;
-        }
-        .sectionReviewHeader {
-          margin-block-end: 16px;
-        }
-        .reviewTitle {
-          display: flex;
-          justify-content: space-between;
-        }
-        .reviewScoreContainer {
-          display: flex;
-          gap: 8px;
           align-items: center;
         }
       `}</style>

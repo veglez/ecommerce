@@ -1,0 +1,15 @@
+@import '@styles/typography';
+.font::placeholder {
+  @include body_text_normal_regular;
+  color: var(--gray);
+}
+.font {
+  @include body_text_normal_bold;
+  color: var(--gray);
+  background-color: transparent;
+}
+
+.font:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+  -webkit-text-fill-color: var(--gray) !important;
+}

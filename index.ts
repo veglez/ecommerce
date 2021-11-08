@@ -1,9 +1,10 @@
 export interface User {
   id: string;
   avatar: Image;
-  name: string;
-  lastName: string;
-  others?: {};
+  username: string;
+  email: string;
+  role: string;
+  profile: string;
 }
 
 export interface Image {
@@ -16,7 +17,7 @@ export interface Image {
 //could be: size, color, shape, etc...
 export interface ProductOption {
   title: string;
-  options: any[];
+  values: any[];
 }
 
 export interface ProductSpecification {
@@ -24,9 +25,38 @@ export interface ProductSpecification {
   value: string | number;
 }
 
+export interface paginator<T> {
+  hasNext: boolean;
+  hasPrev: boolean;
+  page: number;
+  docsPerPage: number;
+  totalDocs: number;
+  data: T[];
+  next: null | string;
+  prev: null | string;
+}
+export interface fetchedData<T> {
+  loading: boolean;
+  error: string | null;
+  data: null | T;
+}
+
+//it just get the keyof one for selection and sortBy
+//i need for selection something like: 'id name' but i only use one
+//and for sortBy i need something like 'created price' or '-created price'
+//for ascending and descending sort
+export interface query<T> {
+  page?: number;
+  limit?: number;
+  sortBy?: keyof T;
+  populate?: string;
+  selection?: keyof T;
+}
+
 export interface Review {
   id: string;
   user: User;
+  product: string; //represents the Id for the product
   score: number;
   opinion: string;
   images: Image[];
@@ -41,12 +71,7 @@ export interface ProductItem {
   price: number;
   previousPrice?: number;
   percentageOff: number;
-  isFavorite: boolean;
-}
-
-export interface ProductDetails {
-  id: string;
-  item: ProductItem;
+  // isFavorite: boolean;
   images: Image[];
   options: ProductOption[];
   specifications: ProductSpecification[];
@@ -59,4 +84,9 @@ export interface scrollableClonedElement {
     dataset: any;
     className: string;
   };
+}
+
+export interface errorResponse {
+  message: string;
+  err: string;
 }
