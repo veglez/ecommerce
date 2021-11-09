@@ -1,11 +1,8 @@
+import { InputHTMLAttributes } from 'react';
 import React from 'react';
 import styles from './styles.module.scss';
 
-interface Props {
-  name: string;
-  type: string;
-  id: string;
-  placeholder?: string;
+interface Props extends Partial<InputHTMLAttributes<HTMLInputElement>> {
   Icon?: React.FC<any>;
 }
 
@@ -13,8 +10,8 @@ const Input = React.forwardRef<HTMLInputElement, Props>(function Input(
   props,
   ref
 ) {
-  const { type, name, id, Icon, placeholder } = props;
-  const [value, setValue] = React.useState('');
+  const { id, type, name, Icon, className, ...rest } = props;
+  const [value, setValue] = React.useState<any>(undefined);
 
   const handleInput = () => {
     if (typeof ref === 'object' && ref?.current) {
@@ -24,7 +21,7 @@ const Input = React.forwardRef<HTMLInputElement, Props>(function Input(
 
   return (
     <>
-      <label htmlFor={id}>
+      <label htmlFor={id} className={className}>
         {Icon && <Icon />}
         <input
           className={styles.font}
@@ -34,7 +31,7 @@ const Input = React.forwardRef<HTMLInputElement, Props>(function Input(
           value={value}
           ref={ref}
           onInput={handleInput}
-          placeholder={placeholder}
+          {...rest}
         />
       </label>
       <style jsx>{`
