@@ -1,11 +1,16 @@
 import { paginator, ProductItem } from 'index';
-import { Action } from 'redux';
-import { PRODUCTS_FETCHING, PRODUCTS_GET_ALL } from '../config/actionsTypes';
-import { ProductsTypes } from '../types';
+import {
+  FETCHING,
+  FETCH_ERROR,
+  PRODUCTS_GET_ALL,
+  PRODUCTS_GET_ONE,
+} from '../config/actionsTypes';
+import { dataIndexes, ProductsTypes } from '../types';
 
 interface productsState {
   loading: boolean;
   products: ProductItem[];
+  indexes: dataIndexes;
   error: string | null;
   meta: Omit<paginator<ProductItem>, 'data'>;
 }
@@ -23,6 +28,7 @@ const initialState: productsState = {
   products: [],
   loading: false,
   error: null,
+  indexes: {},
 };
 
 const productsReducer = (
@@ -31,30 +37,44 @@ const productsReducer = (
 ): productsState => {
   const { type } = action;
   switch (type) {
-    case PRODUCTS_GET_ALL:
-      if (action.error) {
-        return {
-          products: [...state.products],
-          meta: { ...state.meta },
-          loading: false,
-          error: action.payload.message,
-        };
-      }
-      const { data, ...currentMeta } = action.payload;
+    case FETCHING:
       return {
-        meta: { ...currentMeta },
-        products: [...state.products, ...data],
-        error: null,
-        loading: false,
-      };
-    case PRODUCTS_FETCHING:
-      return {
+        ...state,
         products: [...state.products],
         meta: { ...state.meta },
         loading: true,
         error: null,
       };
-
+    case FETCH_ERROR:
+      return {
+        ...state,
+        products: [...state.products],
+        meta: { ...state.meta },
+        loading: false,
+        error: action.payload.message,
+      };
+    case PRODUCTS_GET_ALL:
+      const { data, ...currentMeta } = action.payload;
+      const newProducts = data.filter((p) => !(p.id in state.indexes));
+      const newIndexes: dataIndexes = {};
+      newProducts.forEach((p) => {
+        newIndexes[p.id] = null;
+      });
+      return {
+        ...state,
+        meta: { ...currentMeta },
+        products: [...state.products, ...newProducts],
+        indexes: { ...state.indexes, ...newIndexes },
+        error: null,
+        loading: false,
+      };
+    case PRODUCTS_GET_ONE:
+      return {
+        ...state,
+        error: null,
+        loading: false,
+        products: [...state.products, action.payload],
+      };
     default:
       return state;
   }

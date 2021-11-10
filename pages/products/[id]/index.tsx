@@ -9,13 +9,15 @@ import ReviewCard from 'components/ReviewCard';
 import Button from 'components/Button';
 import ImageWrapper from 'components/ImageWrapper';
 import Options from '@containers/Options';
-import { useAppSelector } from 'src/redux/config/store';
+import { useAppDispatch, useAppSelector } from 'src/redux/config/store';
 import Reviews from '@containers/Reviews';
+import { getOneProduct } from 'src/redux/actions/products';
 
 const ProductDetail = () => {
   const router = useRouter();
   const { id } = router.query;
   const state = useAppSelector((s) => s.products);
+  const dispatch = useAppDispatch();
   console.log('product id index', state); //eslint-disable-line
 
   const [res] = state.products.filter((item) => item.id === id);
@@ -33,10 +35,18 @@ const ProductDetail = () => {
       }),
     });
   }
+
+  React.useEffect(() => {
+    if (!res && id && typeof id === 'string') {
+      dispatch(getOneProduct(id));
+    }
+  }, [res, id, dispatch]);
+
   // return <h1>Debbuging</h1>;
   //this should be out in a component
   // if (res.error) return <h2>{res.error}</h2>;
   // if (res.loading) return <h2>Loading...{endpoint}</h2>;
+  console.log(res);
   return (
     <>
       <>

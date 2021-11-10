@@ -14,3 +14,13 @@ export const fetchPaginatedProducts = async (
     throw error.response;
   }
 };
+
+export const fetchOneProduct = async (id: string) => {
+  const endpoint = `${BASE_URL}/products/${id}`;
+  try {
+    const res = await axios.get<ProductItem>(endpoint);
+    return res.data;
+  } catch (error: any) {
+    throw error.response;
+  }
+};
