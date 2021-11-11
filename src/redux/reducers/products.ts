@@ -2,6 +2,8 @@ import { paginator, ProductItem } from 'index';
 import {
   FETCHING,
   FETCH_ERROR,
+  PRODUCTS_FETCHING,
+  PRODUCTS_FETCHING_ERROR,
   PRODUCTS_GET_ALL,
   PRODUCTS_GET_ONE,
 } from '../config/actionsTypes';
@@ -37,7 +39,7 @@ const productsReducer = (
 ): productsState => {
   const { type } = action;
   switch (type) {
-    case FETCHING:
+    case PRODUCTS_FETCHING:
       return {
         ...state,
         products: [...state.products],
@@ -45,7 +47,7 @@ const productsReducer = (
         loading: true,
         error: null,
       };
-    case FETCH_ERROR:
+    case PRODUCTS_FETCHING_ERROR:
       return {
         ...state,
         products: [...state.products],

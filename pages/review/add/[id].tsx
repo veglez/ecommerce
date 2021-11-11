@@ -2,11 +2,38 @@ import Button from 'components/Button';
 import Input from 'components/Input';
 import Score from 'components/Score';
 import UpdateAImage from 'components/UpdateImage';
+import { useRouter } from 'next/router';
 import React from 'react';
+import { login, refresh } from 'src/redux/actions/auth';
+import { useAppDispatch, useAppSelector } from 'src/redux/config/store';
 
 function AddReview() {
   const [value, setValue] = React.useState('');
   const [selectedScore, setSelectedScore] = React.useState(0);
+  const userState = useAppSelector((s) => s.auth);
+  // const router = useRouter();
+  // console.log(router);
+  const dispatch = useAppDispatch();
+
+  React.useEffect(() => {
+    dispatch(refresh());
+    console.log(userState);
+  }, []);
+
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+    if (!userState.user) {
+      router.push('/login');
+    }
+    const form = e.target as HTMLFormElement;
+    for (const el of form.elements) {
+      const elementType = el.tagName.toLowerCase();
+      if (['input', 'textarea'].includes(elementType)) {
+        const node = el as HTMLInputElement | HTMLTextAreaElement;
+        console.log(node.value);
+      }
+    }
+  };
   return (
     <>
       <section>
@@ -25,7 +52,7 @@ function AddReview() {
             <p>{selectedScore}/5</p>
           </div>
         </header>
-        <form>
+        <form onSubmit={handleSubmit}>
           <Input
             type='number'
             id='score'
@@ -38,7 +65,7 @@ function AddReview() {
           <label>
             <p>Write Your Review</p>
             <textarea
-              id='userComment'
+              id='comment'
               name='comment'
               placeholder={'Write your review here'}
               value={value}

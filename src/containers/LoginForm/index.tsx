@@ -13,16 +13,14 @@ const LoginForm: React.FC = () => {
   const email = React.useRef<HTMLInputElement>(null);
   const pass = React.useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
-  const store = useAppSelector((state) => state.authReducer);
+  const store = useAppSelector((state) => state.auth);
   const router = useRouter();
 
   React.useEffect(() => {
-    setTimeout(() => dispatch({ type: 'reset' }), 2000);
+    if (store.error) {
+      setTimeout(() => dispatch({ type: 'reset' }), 2000);
+    }
   }, [store.error, dispatch]);
-  console.log('store', store);
-  if (store.token) {
-    router.push('/');
-  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

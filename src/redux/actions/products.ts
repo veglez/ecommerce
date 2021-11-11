@@ -1,9 +1,8 @@
 import { Dispatch } from 'redux';
 import { fetchOneProduct, fetchPaginatedProducts } from 'src/services/products';
 import {
-  FETCHING,
-  FETCH_ERROR,
   PRODUCTS_FETCHING,
+  PRODUCTS_FETCHING_ERROR,
   PRODUCTS_GET_ALL,
   PRODUCTS_GET_ONE,
 } from '../config/actionsTypes';
@@ -13,14 +12,14 @@ export const getProducts =
   (page: number = 1) =>
   async (dispatch: Dispatch<ProductsTypes>) => {
     dispatch({
-      type: FETCHING,
+      type: PRODUCTS_FETCHING,
     });
     try {
       const res = await fetchPaginatedProducts(page);
       dispatch({ type: PRODUCTS_GET_ALL, payload: res });
     } catch (error: any) {
       dispatch({
-        type: FETCH_ERROR,
+        type: PRODUCTS_FETCHING_ERROR,
         payload: { message: error.statusText },
       });
     }
@@ -28,7 +27,7 @@ export const getProducts =
 
 export const getOneProduct =
   (id: string) => async (dispatch: Dispatch<ProductsTypes>) => {
-    dispatch({ type: FETCHING });
+    dispatch({ type: PRODUCTS_FETCHING });
     try {
       const res = await fetchOneProduct(id);
       dispatch({
@@ -37,7 +36,7 @@ export const getOneProduct =
       });
     } catch (error: any) {
       dispatch({
-        type: FETCH_ERROR,
+        type: PRODUCTS_FETCHING_ERROR,
         payload: { message: error.message || error.statusText },
       });
     }

@@ -1,7 +1,11 @@
 import { query, Review } from 'index';
 import { Dispatch } from 'redux';
 import { fetchPaginatedReviews } from 'src/services/reviews';
-import { REVIEWS_FETCHING, REVIEWS_GET_ALL } from '../config/actionsTypes';
+import {
+  REVIEWS_FETCHING,
+  REVIEWS_FETCHING_ERROR,
+  REVIEWS_GET_ALL,
+} from '../config/actionsTypes';
 import { ReviewsTypes } from '../types';
 
 interface Params extends query<Review> {
@@ -13,11 +17,10 @@ export const getReviews =
     dispatch({ type: REVIEWS_FETCHING });
     try {
       const res = await fetchPaginatedReviews(params);
-      dispatch({ type: REVIEWS_GET_ALL, error: false, payload: res });
+      dispatch({ type: REVIEWS_GET_ALL, payload: res });
     } catch (err: any) {
       dispatch({
-        type: REVIEWS_GET_ALL,
-        error: true,
+        type: REVIEWS_FETCHING_ERROR,
         payload: { message: err.message || "can't fetch reviews" },
       });
     }

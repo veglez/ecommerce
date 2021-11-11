@@ -39,6 +39,7 @@ const UpdateAImage: React.FC<Props> = (props) => {
         <label className={clsx('fileInput', className)}>
           +
           <input
+            id='file'
             type='file'
             accept='image/*'
             style={{ display: 'none' }}
