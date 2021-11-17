@@ -1,44 +1,59 @@
-import axios from 'axios';
-import { authTypes } from '../config/actionsTypes';
+import axios, { AxiosError } from 'axios';
+import {
+  AUTH_SAVE_TOKEN,
+  AUTH_LOGOUT,
+  AUTH_FETCHING_ERROR,
+  AUTH_FETCHING,
+} from '../config/actionsTypes';
 import { Dispatch } from 'redux';
-import { checkCredentials } from 'src/services/auth';
+import { checkCredentials, refreshSession } from 'src/services/auth';
+import { AuthTypes, serverErrorResponse } from '../types';
 
 interface LoginPayload {
   email: string;
   password: string;
 }
 
-export const login = (payload: LoginPayload) => async (dispatch: Dispatch) => {
-  dispatch({
-    type: authTypes.FETCHING_TOKEN,
-  });
-  try {
-    const res = await checkCredentials(payload);
+export const login =
+  (payload: LoginPayload) => async (dispatch: Dispatch<AuthTypes>) => {
     dispatch({
-      type: authTypes.SAVE_TOKEN,
-      token: res.data.token,
+      type: AUTH_FETCHING,
     });
-  } catch (error: any) {
-    dispatch({
-      type: authTypes.BAD_CREDENTIALS,
-      error: error.response.data.err,
-    });
-  }
-};
+    try {
+      const res = await checkCredentials(payload);
+      dispatch({
+        type: AUTH_SAVE_TOKEN,
+        payload: { token: res.data.token, user: res.data.user },
+      });
+    } catch (error: any) {
+      const res: AxiosError<serverErrorResponse> = error;
+      !!res.response &&
+        dispatch({
+          type: AUTH_FETCHING_ERROR,
+          payload: { message: res.response.data.err },
+        });
+    }
+  };
 
 export const logout = () => (dispatch: Dispatch) => {
   dispatch({
-    type: authTypes.LOGOUT,
+    type: AUTH_LOGOUT,
   });
 };
 
-export const refresh = () => async (dispatch: Dispatch) => {
-  const res = await axios.get(`${process.env.NEXT_PUBLIC_HOST}/auth/bobjwt`, {
-    withCredentials: true,
-  });
-
-  dispatch({
-    type: authTypes.SAVE_TOKEN,
-    token: res.data.token,
-  });
+export const refresh = () => async (dispatch: Dispatch<AuthTypes>) => {
+  try {
+    const res = await refreshSession();
+    dispatch({
+      type: AUTH_SAVE_TOKEN,
+      payload: { token: res.data.token, user: res.data.user },
+    });
+  } catch (error: any) {
+    const res: AxiosError<serverErrorResponse, never> = error;
+    !!res.response &&
+      dispatch({
+        type: AUTH_FETCHING_ERROR,
+        payload: { message: res.response.data.err },
+      });
+  }
 };

@@ -1,6 +1,7 @@
 import { Dispatch } from 'redux';
 import { fetchOneProduct, fetchPaginatedProducts } from 'src/services/products';
 import {
+  PRODUCTS_CLEAN_ERROR,
   PRODUCTS_FETCHING,
   PRODUCTS_FETCHING_ERROR,
   PRODUCTS_GET_ALL,
@@ -22,6 +23,7 @@ export const getProducts =
         type: PRODUCTS_FETCHING_ERROR,
         payload: { message: error.statusText },
       });
+      setTimeout(() => dispatch({ type: PRODUCTS_CLEAN_ERROR }), 2050);
     }
   };
 
@@ -32,12 +34,19 @@ export const getOneProduct =
       const res = await fetchOneProduct(id);
       dispatch({
         type: PRODUCTS_GET_ONE,
-        payload: res,
+        payload: res.data,
       });
     } catch (error: any) {
       dispatch({
         type: PRODUCTS_FETCHING_ERROR,
-        payload: { message: error.message || error.statusText },
+        payload: {
+          message:
+            error.response.data.err ||
+            error.response.data.statusText ||
+            'general error fetching one product',
+        },
       });
+
+      setTimeout(() => dispatch({ type: PRODUCTS_CLEAN_ERROR }), 2050);
     }
   };

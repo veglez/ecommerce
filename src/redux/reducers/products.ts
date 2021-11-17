@@ -1,7 +1,6 @@
 import { paginator, ProductItem } from 'index';
 import {
-  FETCHING,
-  FETCH_ERROR,
+  PRODUCTS_CLEAN_ERROR,
   PRODUCTS_FETCHING,
   PRODUCTS_FETCHING_ERROR,
   PRODUCTS_GET_ALL,
@@ -39,6 +38,11 @@ const productsReducer = (
 ): productsState => {
   const { type } = action;
   switch (type) {
+    case PRODUCTS_CLEAN_ERROR:
+      return {
+        ...state,
+        error: null,
+      };
     case PRODUCTS_FETCHING:
       return {
         ...state,
@@ -50,8 +54,8 @@ const productsReducer = (
     case PRODUCTS_FETCHING_ERROR:
       return {
         ...state,
-        products: [...state.products],
-        meta: { ...state.meta },
+        products: state.products,
+        meta: state.meta,
         loading: false,
         error: action.payload.message,
       };

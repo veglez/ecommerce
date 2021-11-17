@@ -23,13 +23,13 @@ const Banners = scrollableSection({
 });
 
 const Home: NextPage = () => {
-  const dispatch = useAppDispatch();
-  const store = useAppSelector((state) => state.productsReducer);
+  // const dispatch = useAppDispatch();
+  const store = useAppSelector((state) => state.products);
 
   // React.useEffect(() => {
   //   dispatch(getProducts());
   // }, [dispatch]);
-  console.log('STORE INDEx', store); //eslint-disable-line
+  console.log('STORE INDEx', store);
 
   return (
     // <div className={styles.container}>

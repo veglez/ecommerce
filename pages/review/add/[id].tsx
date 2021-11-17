@@ -1,39 +1,75 @@
 import Button from 'components/Button';
 import Input from 'components/Input';
 import Score from 'components/Score';
-import UpdateAImage from 'components/UpdateImage';
+import UpdateImage from 'components/UpdateImage';
+import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { login, refresh } from 'src/redux/actions/auth';
+import { INPUT_FILE } from 'src/config/constants';
+import useAuthentication from 'src/hooks/useAuthentication';
+import useObjectIdVerification from 'src/hooks/useObjectIdVerification';
+import { getOneProduct } from 'src/redux/actions/products';
+import { publishReview } from 'src/redux/actions/reviews';
+
 import { useAppDispatch, useAppSelector } from 'src/redux/config/store';
 
 function AddReview() {
   const [value, setValue] = React.useState('');
   const [selectedScore, setSelectedScore] = React.useState(0);
-  const userState = useAppSelector((s) => s.auth);
-  // const router = useRouter();
-  // console.log(router);
+  // const userState = useAppSelector((s) => s.auth);
   const dispatch = useAppDispatch();
+  const router = useRouter();
+  const { id } = router.query;
 
-  React.useEffect(() => {
-    dispatch(refresh());
-    console.log(userState);
-  }, []);
+  useAuthentication();
+
+  const {
+    error,
+    loading,
+    data: item,
+  } = useObjectIdVerification({
+    cb: getOneProduct,
+    stateSelector: 'products',
+    redirect: true,
+    useCurrentId: true,
+  });
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    if (!userState.user) {
-      router.push('/login');
-    }
     const form = e.target as HTMLFormElement;
+    let toSend = new FormData();
+
     for (const el of form.elements) {
       const elementType = el.tagName.toLowerCase();
-      if (['input', 'textarea'].includes(elementType)) {
-        const node = el as HTMLInputElement | HTMLTextAreaElement;
-        console.log(node.value);
+      if (elementType === 'textarea') {
+        const node = el as HTMLTextAreaElement;
+        console.log('I NEED TO TRIGGER LENGTH VALIDATION');
+        toSend.append(node.name, node.value);
+      }
+      if (elementType === 'input') {
+        const node = el as HTMLInputElement;
+        if (node.name === INPUT_FILE) {
+          if (node.files)
+            for (const image of node.files) {
+              toSend.append(node.name, image);
+            }
+        } else {
+          toSend.append(node.name, node.value);
+        }
       }
     }
+    dispatch(publishReview(id, toSend));
+    router.back();
   };
+
+  if (error)
+    return (
+      <div>
+        <h3>{error}</h3>
+        <p>Redireccionando a la página principal</p>
+      </div>
+    );
+  if (loading) return <h3>Loading response</h3>;
   return (
     <>
       <section>
@@ -65,15 +101,17 @@ function AddReview() {
           <label>
             <p>Write Your Review</p>
             <textarea
-              id='comment'
-              name='comment'
+              required
+              id='opinion'
+              name='opinion'
+              minLength={10}
               placeholder={'Write your review here'}
               value={value}
               onChange={(e) => setValue(e.target.value)}
             ></textarea>
           </label>
 
-          <UpdateAImage />
+          <UpdateImage />
 
           <Button
             text='Publish review'

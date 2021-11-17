@@ -17,7 +17,7 @@ const ReviewCard = (props: Review) => {
             {user.username}
             {user.name} {user.lastName}
           </h4>
-          <Score score={score} className={styles.score} />
+          <Score score={score} className={styles.score} selectable={false} />
         </header>
         <p>{opinion}</p>
         {images.length > 0 && (

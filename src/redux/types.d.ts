@@ -1,4 +1,4 @@
-import { paginator, ProductItem, Review } from 'index';
+import { paginator, ProductItem, Review, reviewPayload, User } from 'index';
 import {
   AUTH_FETCHING,
   AUTH_FETCHING_ERROR,
@@ -6,10 +6,12 @@ import {
   AUTH_SAVE_TOKEN,
   FETCHING,
   FETCH_ERROR,
+  PRODUCTS_CLEAN_ERROR,
   PRODUCTS_FETCHING,
   PRODUCTS_FETCHING_ERROR,
   PRODUCTS_GET_ALL,
   PRODUCTS_GET_ONE,
+  REVIEWS_ADD,
   REVIEWS_FETCHING,
   REVIEWS_FETCHING_ERROR,
   REVIEWS_GET_ALL,
@@ -39,6 +41,11 @@ export interface dataIndexes {
   [key: string]: null;
 }
 
+export interface productReviews {
+  paginator: paginator<Review>;
+  productId: string | null;
+}
+
 /**
  * customAction its a generic type. T represent the payload of the response.
  * Could success response where T its used
@@ -50,7 +57,7 @@ export interface dataIndexes {
 
 interface GetToken {
   type: typeof AUTH_SAVE_TOKEN;
-  token: string;
+  payload: { token: string; user: User };
 }
 
 interface Logout {
@@ -88,9 +95,14 @@ interface FetchProductError {
   payload: errorPayload;
 }
 
+interface ProductCleanError {
+  type: typeof PRODUCTS_CLEAN_ERROR;
+}
+
 export type ProductsTypes =
   | GetAllProducts
   | GetOneProduct
+  | ProductCleanError
   | FetchProduct
   | FetchProductError;
 
@@ -98,7 +110,7 @@ export type ProductsTypes =
 
 interface GetAllReviews {
   type: typeof REVIEWS_GET_ALL;
-  payload: paginator<Review>;
+  payload: productReviews;
 }
 interface GetOneReview {
   type: typeof REVIEWS_GET_ONE;
@@ -114,9 +126,15 @@ interface FetchingReviewsError {
   payload: errorPayload;
 }
 
+interface AddReview {
+  type: typeof REVIEWS_ADD;
+  payload: Review;
+}
+
 export type ReviewsTypes =
   | GetAllReviews
   | GetOneReview
+  | AddReview
   | FetchingReviews
   | FetchingReviewsError;
 

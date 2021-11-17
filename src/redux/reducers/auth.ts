@@ -1,9 +1,19 @@
+import { User } from 'index';
 import {
   AUTH_SAVE_TOKEN,
-  AUTH_BAD_CREDENTIALS,
-  AUTH_FETCHING_TOKEN,
   AUTH_LOGOUT,
+  AUTH_FETCHING_ERROR,
+  AUTH_FETCHING,
 } from 'src/redux/config/actionsTypes';
+import { AuthTypes } from '../types';
+
+interface AuthState {
+  isLoading: boolean;
+  isLoggedIn: boolean;
+  user: User | null;
+  token: string | null;
+  error: string | null;
+}
 
 const initialState = {
   isLoading: false,
@@ -13,9 +23,10 @@ const initialState = {
   error: null,
 };
 
-type State = typeof initialState;
-
-const authReducer = (state: State = initialState, action: any) => {
+const authReducer = (
+  state: AuthState = initialState,
+  action: AuthTypes
+): AuthState => {
   switch (action.type) {
     case AUTH_SAVE_TOKEN:
       return {
@@ -23,17 +34,18 @@ const authReducer = (state: State = initialState, action: any) => {
         isLoading: false,
         isLoggedIn: true,
         error: null,
-        token: action.token,
+        token: action.payload.token,
+        user: action.payload.user,
       };
-    case AUTH_BAD_CREDENTIALS:
+    case AUTH_FETCHING_ERROR:
       return {
         ...state,
         isLoading: false,
         isLoggedIn: false,
         token: null,
-        error: action.error,
+        error: action.payload.message,
       };
-    case AUTH_FETCHING_TOKEN:
+    case AUTH_FETCHING:
       return {
         ...state,
         isLoading: true,

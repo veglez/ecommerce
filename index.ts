@@ -30,7 +30,7 @@ export interface paginator<T> {
   hasPrev: boolean;
   page: number;
   docsPerPage: number;
-  totalDocs: number;
+  totalDocs: number | null;
   data: T[];
   next: null | string;
   prev: null | string;
@@ -89,4 +89,18 @@ export interface scrollableClonedElement {
 export interface errorResponse {
   message: string;
   err: string;
+}
+
+export interface reviewPayload {
+  opinion: string;
+  score: number;
+  images: Image[];
+}
+
+export interface tokenPayload {
+  sub: string;
+  exp: string;
+  iat: string;
+  role: string;
+  username: string;
 }

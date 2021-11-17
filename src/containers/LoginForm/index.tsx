@@ -14,7 +14,6 @@ const LoginForm: React.FC = () => {
   const pass = React.useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
   const store = useAppSelector((state) => state.auth);
-  const router = useRouter();
 
   React.useEffect(() => {
     if (store.error) {
@@ -72,7 +71,9 @@ const LoginForm: React.FC = () => {
         />
         {store.isLoading && <h2>Loading...</h2>}
 
-        <p className={styles.error}>{store.error}</p>
+        <p className={styles.error}>
+          {store.error?.includes('User and/or password') && store.error}
+        </p>
         <Button text='Login' />
       </form>
 

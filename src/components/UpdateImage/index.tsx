@@ -1,10 +1,11 @@
 import clsx from 'clsx';
 import React, { InputHTMLAttributes, useState } from 'react';
-import Image from 'next/image';
+import ThumbnailUpdate from 'components/ThumbailUpdate';
+import { INPUT_FILE } from 'src/config/constants';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {}
 
-const UpdateAImage: React.FC<Props> = (props) => {
+const UpdateImage: React.FC<Props> = (props) => {
   const { className, ...rest } = props;
   const [photos, setPhotos] = useState<File[]>([]);
 
@@ -25,13 +26,12 @@ const UpdateAImage: React.FC<Props> = (props) => {
         <legend>Add a photo</legend>
 
         {photos.map((photo) => {
-          const url = URL.createObjectURL(photo);
           return (
-            <img
+            <ThumbnailUpdate
               key={`${photo.name}${photo.lastModified}`}
-              src={url}
-              className='uploadUserThumbnail'
-              alt={photo.name}
+              photo={photo}
+              cb={setPhotos}
+              photos={photos}
             />
           );
         })}
@@ -41,6 +41,7 @@ const UpdateAImage: React.FC<Props> = (props) => {
           <input
             id='file'
             type='file'
+            name={INPUT_FILE}
             accept='image/*'
             style={{ display: 'none' }}
             multiple
@@ -64,6 +65,7 @@ const UpdateAImage: React.FC<Props> = (props) => {
           display: grid;
           grid-auto-columns: 60px;
           grid-template-columns: repeat(auto-fill, 60px);
+          justify-content: space-between;
           gap: 12px;
           max-width: 100%;
           border: none;
@@ -71,13 +73,15 @@ const UpdateAImage: React.FC<Props> = (props) => {
         legend {
           padding: 24px 0 12px 0;
         }
-        :global(.uploadUserThumbnail) {
+         {
+          /* :global(.uploadUserThumbnail) {
           width: 60px;
           height: 60px;
+        } */
         }
       `}</style>
     </>
   );
 };
 
-export default UpdateAImage;
+export default UpdateImage;

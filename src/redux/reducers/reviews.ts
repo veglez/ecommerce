@@ -1,17 +1,23 @@
 import { paginator, Review } from 'index';
-import { REVIEWS_FETCHING, REVIEWS_GET_ALL } from '../config/actionsTypes';
-import { ReviewsTypes } from '../types';
+import {
+  REVIEWS_ADD,
+  REVIEWS_FETCHING,
+  REVIEWS_FETCHING_ERROR,
+  REVIEWS_GET_ALL,
+} from '../config/actionsTypes';
+import { productReviews, ReviewsTypes } from '../types';
 
 interface reviewsState {
+  reviews: productReviews[];
   loading: boolean;
-  reviews: Review[];
-  error: string | null;
-  meta: Omit<paginator<Review>, 'data'>;
+  error: null | string;
 }
 
-const initialState: reviewsState = {
-  meta: {
-    totalDocs: 0,
+const initialReview: productReviews = {
+  productId: null,
+  paginator: {
+    data: [],
+    totalDocs: null,
     docsPerPage: 0,
     hasNext: false,
     hasPrev: false,
@@ -19,6 +25,9 @@ const initialState: reviewsState = {
     next: null,
     prev: null,
   },
+};
+
+const initialState: reviewsState = {
   reviews: [],
   loading: false,
   error: null,
@@ -30,36 +39,34 @@ const reviewsReducer = (
 ): reviewsState => {
   switch (action.type) {
     case REVIEWS_GET_ALL:
-      if (action.error) {
-        const { message } = action.payload;
-        return {
-          ...state,
-          error: message,
-          loading: false,
-          reviews: [...state.reviews],
-          meta: { ...state.meta },
-        };
-      }
-
-      const { data, ...rest } = action.payload;
       return {
         ...state,
-        reviews: [...state.reviews, ...data],
-        meta: rest,
+        reviews: [...state.reviews, action.payload],
+        loading: false,
+        error: null,
+      };
+    case REVIEWS_FETCHING_ERROR:
+      const { message } = action.payload;
+      return {
+        ...state,
+        error: message,
         loading: false,
       };
-
     case REVIEWS_FETCHING:
-      console.log(
-        'Iam fetching, is the state right just ith detructurign? aka ...state',
-        { ...state },
-        "*************LET'S SEE************"
-      );
       return {
         ...state,
         loading: true,
       };
-
+    case REVIEWS_ADD:
+      const addOne = {
+        ...state.reviews,
+      };
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        reviews: [...state.reviews, action.payload],
+      };
     default:
       return state;
   }
