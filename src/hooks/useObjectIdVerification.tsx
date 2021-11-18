@@ -57,7 +57,7 @@ const useObjectIdVerification = (params: config) => {
   })[0];
   useEffect(() => {
     console.log('THE TIMES ', times);
-    console.log(id, item, state, params.extra);
+    console.log(state);
     //router.query take long to load value. First need to be sure exists
     //item could not exist so first try to call a dispatch to load data in the redux store
     //but only if the state does not have errors (dispatch already have been executed)
@@ -68,7 +68,7 @@ const useObjectIdVerification = (params: config) => {
         if (!!extra) {
           params = { ...params, ...extra };
         }
-        console.log('PARAMS', params);
+        // console.log('PARAMS', params);
         dispatch(cb(params));
         setTimes((pv) => pv + 1);
       }
@@ -78,7 +78,11 @@ const useObjectIdVerification = (params: config) => {
       }
       // dispatch(getOneProduct(id));
     }
-  }, [dispatch, id, state.error, item, cb, useCurrentId, idName, extra, times]);
+    return () => {
+      console.log('THIS TRRIGER ', times);
+      console.count('UNMOUNTED');
+    };
+  }, [dispatch, id, state, item, cb, useCurrentId, idName, extra, times]);
 
   useEffect(() => {
     if (state.error && redirect) {

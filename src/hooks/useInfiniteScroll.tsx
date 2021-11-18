@@ -1,3 +1,4 @@
+import { query } from 'index';
 import { useState, useCallback } from 'react';
 import {
   RootState,
@@ -6,10 +7,9 @@ import {
 } from 'src/redux/config/store';
 
 const useInfiniteScroll = (
-  action: (page: number) => Promise<void>,
+  action: (query: query<any>) => Promise<void>,
   selector: keyof Omit<RootState, 'auth'>
 ) => {
-  const [node, setNode] = useState(null);
   const dispatch = useAppDispatch();
   const state = useAppSelector((s) => s[selector]);
 
@@ -30,7 +30,7 @@ const useInfiniteScroll = (
               state?.meta.page === 0
             ) {
               console.log('PAGE ', state.meta.page + 1);
-              dispatch(action(state.meta.page + 1));
+              dispatch(action({ page: state.meta.page + 1 }));
             }
           }
         };

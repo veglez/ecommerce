@@ -1,11 +1,11 @@
-import { paginator, Review } from 'index';
+import getNews from 'src/utils/extractNews';
 import {
   REVIEWS_ADD,
   REVIEWS_FETCHING,
   REVIEWS_FETCHING_ERROR,
   REVIEWS_GET_ALL,
 } from '../config/actionsTypes';
-import { productReviews, ReviewsTypes } from '../types';
+import { dataIndexes, productReviews, ReviewsTypes } from '../types';
 
 interface reviewsState {
   reviews: productReviews[];
@@ -15,6 +15,7 @@ interface reviewsState {
 
 const initialReview: productReviews = {
   productId: null,
+  indexes: {},
   paginator: {
     data: [],
     totalDocs: null,
@@ -38,13 +39,42 @@ const reviewsReducer = (
   action: ReviewsTypes
 ): reviewsState => {
   switch (action.type) {
-    case REVIEWS_GET_ALL:
+    case REVIEWS_GET_ALL: {
+      const productId = action.payload.productId;
+      const currentReview = state.reviews.filter(
+        (pag) => pag.productId === productId
+      )[0];
+      let ReviewObj: productReviews;
+      if (!currentReview) {
+        const newIndexes: dataIndexes = {};
+        for (const rev of action.payload.paginator.data) {
+          newIndexes[rev.id] = null;
+        }
+        ReviewObj = {
+          ...action.payload,
+          indexes: newIndexes,
+        };
+      } else {
+        const { data, ...rest } = action.payload.paginator;
+        const { newIndexes, newItems } = getNews(data, currentReview.indexes);
+        ReviewObj = {
+          productId: productId,
+          paginator: {
+            ...rest,
+            data: [...currentReview.paginator.data, ...newItems],
+          },
+          indexes: { ...currentReview.indexes, ...newIndexes },
+        };
+      }
       return {
         ...state,
-        reviews: [...state.reviews, action.payload],
+        reviews: state.reviews
+          .filter((rev) => rev.productId !== productId)
+          .concat(ReviewObj),
         loading: false,
         error: null,
       };
+    }
     case REVIEWS_FETCHING_ERROR:
       const { message } = action.payload;
       return {
@@ -58,14 +88,44 @@ const reviewsReducer = (
         loading: true,
       };
     case REVIEWS_ADD:
-      const addOne = {
-        ...state.reviews,
-      };
+      const productId = action.payload.product;
+      const currentReview = state.reviews.filter(
+        (pag) => pag.productId === productId
+      )[0];
+      let ReviewObj: productReviews;
+      if (!currentReview) {
+        const newIndexes: dataIndexes = {};
+        newIndexes[productId] = null;
+        ReviewObj = {
+          productId,
+          paginator: {
+            ...initialReview.paginator,
+            data: [action.payload],
+            totalDocs: 1,
+          },
+          indexes: newIndexes,
+        };
+      } else {
+        const newIndexes = currentReview.indexes;
+        newIndexes[productId] = null;
+        ReviewObj = {
+          ...currentReview,
+          paginator: {
+            ...currentReview.paginator,
+            data: [...currentReview.paginator.data, action.payload],
+            totalDocs: (currentReview.paginator.totalDocs as number) + 1,
+          },
+          indexes: newIndexes,
+        };
+      }
+      const payload = state.reviews
+        .filter((rev) => rev.productId !== productId)
+        .concat(ReviewObj);
       return {
         ...state,
         loading: false,
         error: null,
-        reviews: [...state.reviews, action.payload],
+        reviews: payload,
       };
     default:
       return state;

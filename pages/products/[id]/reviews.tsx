@@ -12,21 +12,21 @@ import { productReviews } from 'src/redux/types';
 const ReviewPage: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
-  const gl = useAppSelector((s) => s.reviews);
-  const dispatch = useAppDispatch();
-  console.log('GLOBAL STATE OF REVIE', gl);
+  // const gl = useAppSelector((s) => s.reviews);
+  // const dispatch = useAppDispatch();
+  // console.log('GLOBAL STATE OF REVIE', gl);
 
-  // useEffect(() => {
-  //   if (!!id) {
-  //     dispatch(getReviews({ productId: id as string }));
-  //   }
-  // }, [id, dispatch]);
+  // // useEffect(() => {
+  // //   if (!!id) {
+  // //     dispatch(getReviews({ productId: id as string }));
+  // //   }
+  // // }, [id, dispatch]);
 
-  // useEffect(() => {
-  //   if (state.error) {
-  //     setTimeout(() => router.push('/'), 1500);
-  //   }
-  // }, [state.error, router]);
+  // // useEffect(() => {
+  // //   if (state.error) {
+  // //     setTimeout(() => router.push('/'), 1500);
+  // //   }
+  // // }, [state.error, router]);
 
   const { loading, error, data } = useObjectIdVerification({
     cb: getReviews,
@@ -51,7 +51,7 @@ const ReviewPage: NextPage = () => {
       </div>
     );
 
-  console.log('STATE OF THE ART', state);
+  // console.log('STATE OF THE ART', state);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>

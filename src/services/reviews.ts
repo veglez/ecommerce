@@ -12,7 +12,7 @@ export const fetchPaginatedReviews = async (params: Params) => {
   const { page = 1, limit = 20, productId, sortBy } = params;
   //i need an utility function that return an string (should be a valid endpoint) that accepts query params
   const endpoint = `${BASE_URL}/products/${productId}/reviews?page=${page}&limit=${limit}&sortBy=${sortBy}`;
-  return await axios.get<productReviews>(endpoint);
+  return await axios.get<Omit<productReviews, 'indexes'>>(endpoint);
 };
 
 export const PostOneReview = async (

@@ -1,3 +1,4 @@
+import { paginator, ProductItem } from 'index';
 import { Dispatch } from 'redux';
 import { fetchOneProduct, fetchPaginatedProducts } from 'src/services/products';
 import {
@@ -10,13 +11,13 @@ import {
 import { ProductsTypes } from '../types';
 
 export const getProducts =
-  (page: number = 1) =>
+  (params: paginator<ProductItem>) =>
   async (dispatch: Dispatch<ProductsTypes>) => {
     dispatch({
       type: PRODUCTS_FETCHING,
     });
     try {
-      const res = await fetchPaginatedProducts(page);
+      const res = await fetchPaginatedProducts(params);
       dispatch({ type: PRODUCTS_GET_ALL, payload: res });
     } catch (error: any) {
       dispatch({

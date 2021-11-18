@@ -45,6 +45,9 @@ export interface fetchedData<T> {
 //i need for selection something like: 'id name' but i only use one
 //and for sortBy i need something like 'created price' or '-created price'
 //for ascending and descending sort
+/**
+ * @param {type} T refers to the keys for sortBy and selection query params
+ */
 export interface query<T> {
   page?: number;
   limit?: number;

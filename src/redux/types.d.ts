@@ -44,6 +44,7 @@ export interface dataIndexes {
 export interface productReviews {
   paginator: paginator<Review>;
   productId: string | null;
+  indexes: dataIndexes;
 }
 
 /**
@@ -110,7 +111,7 @@ export type ProductsTypes =
 
 interface GetAllReviews {
   type: typeof REVIEWS_GET_ALL;
-  payload: productReviews;
+  payload: Omit<productReviews, 'indexes'>;
 }
 interface GetOneReview {
   type: typeof REVIEWS_GET_ONE;

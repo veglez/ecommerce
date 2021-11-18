@@ -1,4 +1,5 @@
 import { paginator, ProductItem } from 'index';
+import getNews from 'src/utils/extractNews';
 import {
   PRODUCTS_CLEAN_ERROR,
   PRODUCTS_FETCHING,
@@ -61,11 +62,15 @@ const productsReducer = (
       };
     case PRODUCTS_GET_ALL:
       const { data, ...currentMeta } = action.payload;
-      const newProducts = data.filter((p) => !(p.id in state.indexes));
-      const newIndexes: dataIndexes = {};
-      newProducts.forEach((p) => {
-        newIndexes[p.id] = null;
-      });
+      // const newProducts = data.filter((p) => !(p.id in state.indexes));
+      // const newIndexes: dataIndexes = {};
+      // newProducts.forEach((p) => {
+      //   newIndexes[p.id] = null;
+      // });
+      const { newIndexes, newItems: newProducts } = getNews(
+        data,
+        state.indexes
+      );
       return {
         ...state,
         meta: { ...currentMeta },
