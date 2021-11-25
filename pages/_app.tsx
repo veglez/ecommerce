@@ -9,9 +9,11 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <div className='superContainer'>
       <Provider store={store}>
-        <Header />
-        <Test />
-        <Component className='mainWrapper' {...pageProps} />
+        {/* <Header /> */}
+        {/* <Test /> */}
+        <Component {...pageProps} />
+        {/* <div className='mainWrapper'>
+        </div> */}
       </Provider>
     </div>
   );

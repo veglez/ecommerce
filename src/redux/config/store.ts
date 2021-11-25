@@ -1,12 +1,20 @@
 import { createStore, applyMiddleware } from 'redux';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import reducers from '../reducers';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import reduxThunk, { ThunkDispatch } from 'redux-thunk';
+
+let second;
+if (process.env.NODE_ENV === 'development') {
+  second = (mids: any) => composeWithDevTools(applyMiddleware(mids));
+} else {
+  second = (mids: any) => applyMiddleware(mids);
+}
 
 const store = createStore(
   reducers, //all reducers
   {}, //initialState
-  applyMiddleware(reduxThunk)
+  second(reduxThunk)
 );
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

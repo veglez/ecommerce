@@ -33,6 +33,7 @@
     "eslint-config-next": "11.1.0",
     "husky": ">=6",
     "lint-staged": ">=10",
+    "redux-devtools-extension": "^2.13.9",
     "typescript": "^4.4.4"
   },
   "lint-staged": {
