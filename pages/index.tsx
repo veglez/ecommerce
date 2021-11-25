@@ -24,7 +24,7 @@ const Banners = scrollableSection({
 
 const Home: NextPage = () => {
   // const dispatch = useAppDispatch();
-  const store = useAppSelector((state) => state.products);
+  const store = useAppSelector((state) => state);
 
   // React.useEffect(() => {
   //   dispatch(getProducts());

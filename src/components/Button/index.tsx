@@ -21,6 +21,10 @@ const Button: React.FC<Props & ButtonHTMLAttributes<HTMLButtonElement>> = (
           border: none;
           border-radius: 5px;
           outline: none;
+          width: 100%;
+        }
+        button:disabled {
+          filter: grayscale(1);
         }
       `}</style>
     </>

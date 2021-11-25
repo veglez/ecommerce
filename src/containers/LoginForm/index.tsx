@@ -3,11 +3,9 @@ import Input from 'components/Input';
 import Message from 'components/Icons/Message';
 import Lock from 'components/Icons/Lock';
 import Button from 'components/Button';
-import styles from './styles.module.scss';
 import { useAppDispatch, useAppSelector } from 'src/redux/config/store';
 import { login } from 'src/redux/actions/auth';
-import Spinner from 'components/Spinner';
-import { useRouter } from 'next/router';
+import Forms from '@containers/Form';
 
 const LoginForm: React.FC = () => {
   const email = React.useRef<HTMLInputElement>(null);
@@ -23,7 +21,7 @@ const LoginForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (email && email.current && pass && pass.current) {
+    if (email && email.current?.value && pass && pass.current?.value) {
       dispatch(
         login({
           email: email.current.value,
@@ -33,25 +31,8 @@ const LoginForm: React.FC = () => {
     }
   };
 
-  if (store.isLoading)
-    return (
-      <>
-        <div className='spn'>
-          <Spinner />
-        </div>
-        <style jsx>
-          {`
-            div.spn {
-              border: 1px solid gray;
-              min-height: 212px;
-            }
-          `}
-        </style>
-      </>
-    );
-
   return (
-    <>
+    <Forms loading={store.isLoading} alertMessage={store.error}>
       <form onSubmit={handleSubmit}>
         <Input
           ref={email}
@@ -69,23 +50,10 @@ const LoginForm: React.FC = () => {
           name='password'
           id='loginPassword'
         />
-        {store.isLoading && <h2>Loading...</h2>}
 
-        <p className={styles.error}>
-          {store.error?.includes('User and/or password') && store.error}
-        </p>
         <Button text='Login' />
       </form>
-
-      <style jsx>{`
-        form {
-          min-height: 212px;
-          display: flex;
-          flex-direction: column;
-          gap: 16px;
-        }
-      `}</style>
-    </>
+    </Forms>
   );
 };
 

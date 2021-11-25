@@ -1,10 +1,7 @@
 import { AxiosResponse } from 'axios';
 import { User } from 'index';
+import { LoginPayload, RegisterPayload } from 'src/redux/types';
 import instance from './request';
-interface LoginPayload {
-  email: string;
-  password: string;
-}
 
 interface serverData {
   token: string;
@@ -22,4 +19,11 @@ export const refreshSession = () => {
   const endpoint = `/auth/bobjwt`;
   const res = instance.get<serverData>(endpoint);
   return res;
+};
+
+export const registerService = async (data: RegisterPayload) => {
+  return instance.post<serverData, AxiosResponse<serverData>, RegisterPayload>(
+    '/auth/register',
+    data
+  );
 };

@@ -1,33 +1,74 @@
-import React from 'react';
+import React, { createElement, useCallback } from 'react';
+import css from 'styled-jsx/css';
 
 const Spinner = () => {
+  const bullets = useCallback(() => {
+    const items = [];
+    for (let index = 0; index < 9; index++) {
+      const element = createElement(
+        'div',
+        {
+          className: 'bullet',
+          style: {
+            transform: `rotate(${index * (360 / 9)}deg)`,
+          },
+        },
+        createElement('div', {
+          className: 'bullet_inner',
+          style: {
+            animationDelay: `${index * 0.1}s`,
+          },
+        })
+      );
+      items.push(element);
+    }
+    return items;
+  }, []);
+
   return (
     <>
       <div className='container'>
-        <div id='1'></div>
-        <div id='2'></div>
-        <div id='3'></div>
-        <div id='4'></div>
-        <div id='5'></div>
-        <div id='6'></div>
-        <div id='7'></div>
-        <div id='8'></div>
-        <div id='9'></div>
+        {bullets().map((El, i) => {
+          return El;
+        })}
       </div>
 
       <style jsx>{`
-        div {
+        div.container :global(div.bullet) {
+          width: 5%;
+          height: 50%;
+          position: absolute;
+        }
+
+        div.container :global(div.bullet_inner) {
           width: 10px;
-          heigth: 10px;
-          background-color: crimson;
-          border: 1px solid crimson;
+          height: 10px;
+          background-color: var(--dark);
+          border-radius: 50%;
+          position: absolute;
+          top: 0;
+          left: 0;
+          z-index: 10;
+          animation: spin 0.9s linear infinite;
+        }
+
+        @keyframes spin {
+          from {
+            transform: scale(0)
+          }
+          to {
+            transform: scale(1)
+          }
         }
 
         div.container {
-          width: auto;
-          height: auto;
+          width: 100%;
+          height: 150px;
+          position: relative;
           display: flex;
-          gap: 6px;
+          align-items: center;
+          justify-content: center;
+          }
         }
       `}</style>
     </>
